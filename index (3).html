@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Фонд имени Давида Львовича Рудмана «ДАР»</title>
+  <style>
+    :root {
+      --blue-950: #071735;
+      --blue-900: #0b214b;
+      --blue-800: #12356f;
+      --blue-700: #17468f;
+      --gold: #d8aa4c;
+      --gold-light: #f2d486;
+      --white: #ffffff;
+      --muted: #c8d3e8;
+      --text: #101828;
+      --bg: #f5f7fb;
+      --card: rgba(255, 255, 255, 0.92);
+      --shadow: 0 24px 70px rgba(7, 23, 53, 0.18);
+      --radius: 28px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
+    }
+
+    body {
+      font-family: Inter, Montserrat, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .header {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      z-index: 50;
+      transform: translateX(-50%);
+      width: min(1180px, calc(100% - 32px));
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(7, 23, 53, 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .logo__mark {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--blue-950);
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow: 0 0 0 6px rgba(216, 170, 76, 0.16);
+      flex: 0 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      color: var(--gold-light);
+    }
+
+    .header__cta,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    .header__cta,
+    .btn--gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--blue-950);
+      box-shadow: 0 14px 36px rgba(216, 170, 76, 0.32);
+    }
+
+    .btn--blue {
+      background: var(--blue-800);
+      color: var(--white);
+      box-shadow: 0 14px 36px rgba(18, 53, 111, 0.28);
+    }
+
+    .btn--ghost {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+    }
+
+    .btn:hover,
+    .header__cta:hover {
+      transform: translateY(-2px);
+    }
+
+    .burger {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      flex: 0 0 auto;
+      touch-action: manipulation;
+    }
+
+    .burger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 5px auto;
+      border-radius: 999px;
+      background: var(--white);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .mobile-menu-toggle {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mobile-panel {
+      display: none;
+    }
+
+    .mobile-bottom-cta {
+      display: none;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 170px 0 90px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 78% 24%, rgba(216, 170, 76, 0.34), transparent 26%),
+        linear-gradient(135deg, rgba(7, 23, 53, 0.96), rgba(11, 33, 75, 0.94)),
+        url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=1800&q=80') center/cover;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0;
+      height: 160px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero__grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding: 9px 14px;
+      border: 1px solid rgba(242, 212, 134, 0.34);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--gold-light);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gold-light);
+      box-shadow: 0 0 24px var(--gold-light);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(42px, 6vw, 82px);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .hero__lead {
+      max-width: 650px;
+      margin: 28px 0 36px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero__panel {
+      position: relative;
+      padding: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.11);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero__photo {
+      min-height: 460px;
+      border-radius: 24px;
+      background:
+        linear-gradient(to top, rgba(7, 23, 53, 0.8), transparent 46%),
+        url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=1100&q=80') center/cover;
+      overflow: hidden;
+    }
+
+    .hero__stat {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      left: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--blue-950);
+    }
+
+    .stat-card strong {
+      display: block;
+      color: var(--blue-800);
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .stat-card span {
+      display: block;
+      margin-top: 6px;
+      color: #536178;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 96px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 42px;
+    }
+
+    .section-kicker {
+      margin-bottom: 12px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 720px;
+      color: var(--blue-950);
+      font-size: clamp(34px, 4vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .section-text {
+      max-width: 430px;
+      color: #5c6a82;
+      font-size: 17px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 280px;
+      padding: 28px;
+      border: 1px solid rgba(10, 30, 70, 0.08);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 18px 45px rgba(7, 23, 53, 0.08);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: rgba(216, 170, 76, 0.14);
+    }
+
+    .card__icon {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 24px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--blue-800), var(--blue-950));
+      color: var(--gold-light);
+      font-size: 30px;
+    }
+
+    .card h3 {
+      margin-bottom: 14px;
+      color: var(--blue-950);
+      font-size: 25px;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      color: #62708a;
+      font-size: 16px;
+    }
+
+    .legacy {
+      background: var(--white);
+    }
+
+    .legacy__grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .legacy__media {
+      min-height: 560px;
+      border-radius: 36px;
+      background:
+        linear-gradient(to top, rgba(7, 23, 53, 0.74), transparent 55%),
+        url('https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=1200&q=80') center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .timeline__item {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #f3f6fb;
+    }
+
+    .timeline__year {
+      color: var(--blue-800);
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .timeline__item p {
+      color: #5c6a82;
+    }
+
+    .energy {
+      color: var(--white);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(216, 170, 76, 0.26), transparent 28%),
+        linear-gradient(135deg, var(--blue-950), var(--blue-800));
+    }
+
+    .energy h2,
+    .energy .section-text {
+      color: var(--white);
+    }
+
+    .energy .section-text {
+      color: var(--muted);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .step {
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .step__num {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--blue-950);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .donate__grid {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .donate-card {
+      padding: 34px;
+      border-radius: 34px;
+      background: var(--blue-950);
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .donate-card h3 {
+      max-width: 520px;
+      margin-bottom: 16px;
+      font-size: 36px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .donate-card p {
+      color: var(--muted);
+    }
+
+    .progress {
+      margin: 28px 0;
+    }
+
+    .progress__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+      font-weight: 900;
+    }
+
+    .progress__bar {
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+    }
+
+    .progress__fill {
+      width: 64%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+
+    .amounts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .amounts button {
+      min-height: 48px;
+      padding: 13px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      cursor: pointer;
+      font-weight: 800;
+      touch-action: manipulation;
+    }
+
+    .amounts button:hover {
+      background: rgba(216, 170, 76, 0.24);
+    }
+
+    .qr-card {
+      display: grid;
+      place-items: center;
+      padding: 34px;
+      border-radius: 34px;
+      background: var(--white);
+      box-shadow: 0 18px 45px rgba(7, 23, 53, 0.08);
+      text-align: center;
+    }
+
+    .qr {
+      display: grid;
+      place-items: center;
+      width: 240px;
+      height: 240px;
+      margin-bottom: 20px;
+      border: 12px solid #edf2fb;
+      border-radius: 28px;
+      background:
+        linear-gradient(90deg, #111 12px, transparent 12px) 0 0/36px 36px,
+        linear-gradient(#111 12px, transparent 12px) 0 0/36px 36px,
+        #fff;
+      color: var(--blue-950);
+      font-weight: 900;
+    }
+
+    .qr span {
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: var(--white);
+    }
+
+    .events {
+      background: var(--white);
+    }
+
+    .event-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 130px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 22px;
+      border: 1px solid rgba(10, 30, 70, 0.08);
+      border-radius: 26px;
+      background: #f8faff;
+    }
+
+    .event__date {
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--blue-950);
+      color: var(--white);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .event__date strong {
+      display: block;
+      font-size: 34px;
+      line-height: 1;
+      color: var(--gold-light);
+    }
+
+    .event h3 {
+      margin-bottom: 6px;
+      color: var(--blue-950);
+      font-size: 22px;
+    }
+
+    .event p {
+      color: #62708a;
+    }
+
+    .contact {
+      color: var(--white);
+      background: linear-gradient(135deg, var(--blue-950), #050b18);
+    }
+
+    .contact h2 {
+      color: var(--white);
+    }
+
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-info__item {
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.07);
+      overflow-wrap: anywhere;
+    }
+
+    .contact-info__item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gold-light);
+    }
+
+    .form {
+      display: grid;
+      gap: 14px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .form input,
+    .form select,
+    .form textarea {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 18px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--blue-950);
+      font-size: 16px;
+    }
+
+    .form textarea {
+      min-height: 130px;
+      padding-top: 16px;
+      resize: vertical;
+    }
+
+    .footer {
+      padding: 28px 0;
+      background: #030713;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 14px;
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .header {
+        width: calc(100% - 28px);
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .burger {
+        display: block;
+      }
+
+      .mobile-panel {
+        position: fixed;
+        top: 86px;
+        left: 14px;
+        right: 14px;
+        z-index: 45;
+        display: grid;
+        gap: 10px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 28px;
+        background: rgba(7, 23, 53, 0.96);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
+        backdrop-filter: blur(18px);
+        opacity: 0;
+        transform: translateY(-14px);
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .mobile-panel a {
+        display: flex;
+        align-items: center;
+        min-height: 52px;
+        padding: 0 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.07);
+        color: var(--white);
+        font-weight: 800;
+      }
+
+      .mobile-panel a:last-child {
+        justify-content: center;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--blue-950);
+      }
+
+      .mobile-menu-toggle:checked ~ .page .mobile-panel {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .mobile-menu-toggle:checked ~ .page .burger span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .mobile-menu-toggle:checked ~ .page .burger span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-menu-toggle:checked ~ .page .burger span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .hero__grid,
+      .legacy__grid,
+      .donate__grid,
+      .contact__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__grid {
+        gap: 34px;
+      }
+
+      .cards,
+      .steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-text {
+        margin-top: 18px;
+      }
+
+      .event {
+        grid-template-columns: 110px 1fr;
+      }
+
+      .event .btn {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      html {
+        scroll-padding-top: 92px;
+      }
+
+      body {
+        padding-bottom: calc(76px + var(--safe-bottom));
+      }
+
+      .container {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .header {
+        top: 10px;
+        width: calc(100% - 20px);
+        padding: 10px 12px;
+        border-radius: 24px;
+      }
+
+      .logo {
+        gap: 9px;
+        font-size: 14px;
+      }
+
+      .logo__mark {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+        box-shadow: 0 0 0 4px rgba(216, 170, 76, 0.14);
+      }
+
+      .header__cta {
+        display: none;
+      }
+
+      .burger {
+        width: 44px;
+        height: 44px;
+      }
+
+      .mobile-panel {
+        top: 72px;
+        left: 10px;
+        right: 10px;
+        padding: 12px;
+        border-radius: 22px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 126px 0 62px;
+        background-position: center top;
+      }
+
+      .hero::after {
+        height: 90px;
+      }
+
+      .hero__grid {
+        gap: 24px;
+      }
+
+      .eyebrow {
+        max-width: 100%;
+        margin-bottom: 18px;
+        padding: 8px 12px;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+      }
+
+      h1 {
+        font-size: clamp(38px, 12vw, 50px);
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+      }
+
+      .hero__lead {
+        margin: 20px 0 26px;
+        font-size: 17px;
+      }
+
+      .hero__actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .btn,
+      .header__cta {
+        width: 100%;
+        min-height: 52px;
+        padding: 0 18px;
+      }
+
+      .hero__panel {
+        padding: 12px;
+        border-radius: 24px;
+      }
+
+      .hero__photo {
+        min-height: 280px;
+        border-radius: 18px;
+      }
+
+      .hero__stat {
+        position: static;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        padding: 10px 0 0;
+      }
+
+      .stat-card {
+        padding: 12px 8px;
+        border-radius: 14px;
+        text-align: center;
+      }
+
+      .stat-card strong {
+        font-size: 22px;
+      }
+
+      .stat-card span {
+        font-size: 10px;
+        line-height: 1.2;
+      }
+
+      section {
+        padding: 64px 0;
+      }
+
+      .section-head {
+        margin-bottom: 26px;
+      }
+
+      .section-kicker {
+        margin-bottom: 10px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+      }
+
+      h2 {
+        font-size: clamp(30px, 10vw, 40px);
+        line-height: 1.05;
+      }
+
+      .section-text {
+        max-width: 100%;
+        font-size: 16px;
+      }
+
+      .cards,
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .card {
+        min-height: auto;
+        padding: 22px;
+        border-radius: 24px;
+      }
+
+      .card__icon {
+        width: 54px;
+        height: 54px;
+        margin-bottom: 18px;
+        border-radius: 18px;
+        font-size: 26px;
+      }
+
+      .card h3 {
+        font-size: 22px;
+      }
+
+      .legacy__grid,
+      .contact__grid {
+        gap: 24px;
+      }
+
+      .legacy__media {
+        min-height: 300px;
+        border-radius: 26px;
+      }
+
+      .timeline {
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .timeline__item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .timeline__year {
+        font-size: 22px;
+      }
+
+      .step {
+        padding: 20px;
+        border-radius: 22px;
+      }
+
+      .step__num {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 16px;
+      }
+
+      .donate__grid {
+        gap: 18px;
+      }
+
+      .donate-card,
+      .qr-card {
+        padding: 22px;
+        border-radius: 26px;
+      }
+
+      .donate-card h3 {
+        font-size: 28px;
+        line-height: 1.1;
+      }
+
+      .progress {
+        margin: 22px 0;
+      }
+
+      .progress__top {
+        font-size: 14px;
+      }
+
+      .amounts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .amounts button {
+        width: 100%;
+        min-height: 50px;
+        padding: 10px 12px;
+      }
+
+      .qr {
+        width: min(220px, 72vw);
+        height: min(220px, 72vw);
+        border-width: 10px;
+        border-radius: 24px;
+        background:
+          linear-gradient(90deg, #111 10px, transparent 10px) 0 0/30px 30px,
+          linear-gradient(#111 10px, transparent 10px) 0 0/30px 30px,
+          #fff;
+      }
+
+      .event-list {
+        gap: 14px;
+      }
+
+      .event {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .event__date {
+        width: 100%;
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .event__date strong {
+        font-size: 30px;
+      }
+
+      .event h3 {
+        font-size: 20px;
+      }
+
+      .form {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .form input,
+      .form select,
+      .form textarea {
+        min-height: 52px;
+        border-radius: 16px;
+      }
+
+      .footer {
+        padding: 24px 0;
+      }
+
+      .footer__inner {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mobile-bottom-cta {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + var(--safe-bottom));
+        z-index: 60;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 22px;
+        background: rgba(7, 23, 53, 0.9);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      }
+
+      .mobile-bottom-cta .btn {
+        min-height: 50px;
+        padding: 0 10px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .logo span:last-child {
+        max-width: 116px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .amounts,
+      .mobile-bottom-cta {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding-bottom: calc(132px + var(--safe-bottom));
+      }
+    }
+  </style>
+</head>
+<body>
+  <input class="mobile-menu-toggle" type="checkbox" id="mobile-menu-toggle" />
+  <div class="page">
+    <header class="header">
+      <div class="header__inner">
+        <a class="logo" href="#top" aria-label="Фонд ДАР">
+          <span class="logo__mark">ДАР</span>
+          <span>Фонд Рудмана</span>
+        </a>
+        <nav class="nav">
+          <a href="#legacy">Наследие</a>
+          <a href="#directions">Направления</a>
+          <a href="#energy">Энергия ДАРА</a>
+          <a href="#events">События</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <a class="header__cta" href="#donate">Поддержать</a>
+        <label class="burger" for="mobile-menu-toggle" aria-label="Открыть меню">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <nav class="mobile-panel" aria-label="Мобильное меню">
+      <a href="#legacy">Наследие</a>
+      <a href="#directions">Направления</a>
+      <a href="#energy">Энергия ДАРА</a>
+      <a href="#events">События</a>
+      <a href="#contacts">Контакты</a>
+      <a href="#donate">Поддержать</a>
+    </nav>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero__grid">
+          <div>
+            <div class="eyebrow">спорт · интеллект · культура</div>
+            <h1>ДАР таланту — путь к вершине</h1>
+            <p class="hero__lead">
+              Фонд имени Давида Львовича Рудмана развивает молодёжь через самбо, образовательные технологии и творческие инициативы.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--gold" href="#donate">Поддержать фонд</a>
+              <a class="btn btn--ghost" href="#energy">Принять участие</a>
+            </div>
+          </div>
+
+          <div class="hero__panel">
+            <div class="hero__photo"></div>
+            <div class="hero__stat">
+              <div class="stat-card">
+                <strong>3</strong>
+                <span>направления развития</span>
+              </div>
+              <div class="stat-card">
+                <strong>4</strong>
+                <span>этапа поддержки</span>
+              </div>
+              <div class="stat-card">
+                <strong>1</strong>
+                <span>система роста</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="directions">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Направления фонда</div>
+              <h2>Развиваем личность, а не только спортивный результат</h2>
+            </div>
+            <p class="section-text">
+              Программы фонда объединяют дисциплину спорта, проектное мышление и творческую самореализацию.
+            </p>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card__icon">🥋</div>
+              <h3>Самбо 2.0</h3>
+              <p>Тренировочные программы, спортивные сборы, турниры памяти и методики подготовки на основе школы Рудмана.</p>
+            </article>
+            <article class="card">
+              <div class="card__icon">💡</div>
+              <h3>EduTech в спорте</h3>
+              <p>Видеоаналитика, цифровые тренажёры, образовательные платформы и новые форматы обучения технике.</p>
+            </article>
+            <article class="card">
+              <div class="card__icon">🎨</div>
+              <h3>Таланты и искусство</h3>
+              <p>Гранты, конкурсы и поддержка молодых ребят, которые проявляют себя в творчестве, IT и культуре.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="legacy" id="legacy">
+        <div class="container legacy__grid">
+          <div class="legacy__media" aria-label="Архивное изображение"></div>
+          <div>
+            <div class="section-kicker">Наследие</div>
+            <h2>Код Рудмана: сила, характер и умение мыслить</h2>
+            <p class="section-text" style="margin-top: 22px; max-width: 620px;">
+              Давид Львович Рудман оставил систему, в которой спорт становится инструментом воспитания характера, интеллекта и ответственности.
+            </p>
+            <div class="timeline">
+              <div class="timeline__item">
+                <div class="timeline__year">1973</div>
+                <p>Первый чемпион мира по самбо. Символ международного признания отечественной школы борьбы.</p>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__year">Школа</div>
+                <p>Подход, объединяющий спортивную подготовку, дисциплину, образование и наставничество.</p>
+              </div>
+              <div class="timeline__item">
+                <div class="timeline__year">ДАР</div>
+                <p>Современное продолжение наследия: поддержка молодых талантов через спорт, технологии и культуру.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="energy" id="energy">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Проект</div>
+              <h2>Энергия ДАРА — путь от идеи до поддержки</h2>
+            </div>
+            <p class="section-text">
+              Программа для молодых участников, где талант проходит акселерацию, защиту и получает ресурс для роста.
+            </p>
+          </div>
+
+          <div class="steps">
+            <article class="step">
+              <div class="step__num">1</div>
+              <h3>Заявка</h3>
+              <p>Участник подаёт проект, спортивную инициативу или творческую идею.</p>
+            </article>
+            <article class="step">
+              <div class="step__num">2</div>
+              <h3>Акселератор</h3>
+              <p>Наставники помогают доработать цель, план и презентацию.</p>
+            </article>
+            <article class="step">
+              <div class="step__num">3</div>
+              <h3>Защита</h3>
+              <p>Проект представляется экспертному совету фонда.</p>
+            </article>
+            <article class="step">
+              <div class="step__num">4</div>
+              <h3>Грант + ментор</h3>
+              <p>Победители получают поддержку, сопровождение и публичный трек развития.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="donate">
+        <div class="container donate__grid">
+          <div class="donate-card">
+            <div class="section-kicker">Помощь фонду</div>
+            <h3>Поддержите конкретную цель — увидьте конкретный результат</h3>
+            <p>Средства направляются на экипировку, стипендии, образовательные программы и мероприятия фонда.</p>
+
+            <div class="progress">
+              <div class="progress__top">
+                <span>Сбор на экипировку</span>
+                <span>64%</span>
+              </div>
+              <div class="progress__bar">
+                <div class="progress__fill"></div>
+              </div>
+            </div>
+
+            <div class="amounts" aria-label="Выбор суммы пожертвования">
+              <button type="button">500 ₽</button>
+              <button type="button">1 000 ₽</button>
+              <button type="button">5 000 ₽</button>
+              <button type="button">Своя сумма</button>
+            </div>
+
+            <a class="btn btn--gold" href="#contacts">Связаться по пожертвованию</a>
+          </div>
+
+          <div class="qr-card">
+            <div class="qr"><span>QR СБП</span></div>
+            <h3>QR-код для пожертвований</h3>
+            <p style="margin-top: 8px; color: #62708a;">Здесь размещается реальный динамический QR-код банка или платёжного сервиса.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="events" id="events">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">События</div>
+              <h2>Ближайшие мероприятия фонда</h2>
+            </div>
+            <p class="section-text">Раздел можно подключить к админ-панели, чтобы команда фонда добавляла события без программиста.</p>
+          </div>
+
+          <div class="event-list">
+            <article class="event">
+              <div class="event__date"><strong>15</strong>май</div>
+              <div>
+                <h3>Мастер-класс «Самбо и мышление победителя»</h3>
+                <p>Открытая встреча с тренерами и молодыми спортсменами.</p>
+              </div>
+              <a class="btn btn--blue" href="#contacts">Участвовать</a>
+            </article>
+            <article class="event">
+              <div class="event__date"><strong>02</strong>июнь</div>
+              <div>
+                <h3>Защита проектов «Энергия ДАРА»</h3>
+                <p>Презентации инициатив в спорте, технологиях и культуре.</p>
+              </div>
+              <a class="btn btn--blue" href="#contacts">Подать заявку</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contacts">
+        <div class="container contact__grid">
+          <div>
+            <div class="section-kicker">Контакты</div>
+            <h2>Оставьте заявку — команда фонда свяжется с вами</h2>
+            <div class="contact-info" style="margin-top: 30px;">
+              <div class="contact-info__item">
+                <strong>Email</strong>
+                <span>info@dar-fund.ru</span>
+              </div>
+              <div class="contact-info__item">
+                <strong>Социальные сети</strong>
+                <span>Telegram · VK · YouTube</span>
+              </div>
+              <div class="contact-info__item">
+                <strong>Адрес</strong>
+                <span>Москва / Тверь — указать фактический адрес фонда</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="form">
+            <input type="text" placeholder="Имя" />
+            <input type="email" placeholder="Email" />
+            <select>
+              <option>Хочу стать волонтёром</option>
+              <option>Заявка на участие</option>
+              <option>Сотрудничество</option>
+              <option>Пожертвование</option>
+            </select>
+            <textarea placeholder="Сообщение"></textarea>
+            <button class="btn btn--gold" type="button">Отправить заявку</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <span>© Фонд имени Давида Львовича Рудмана «ДАР»</span>
+        <span>Публичная оферта · Политика обработки персональных данных</span>
+      </div>
+    </footer>
+
+    <div class="mobile-bottom-cta" aria-label="Быстрые действия">
+      <a class="btn btn--gold" href="#donate">Поддержать</a>
+      <a class="btn btn--ghost" href="#contacts">Заявка</a>
+    </div>
+  </div>
+</body>
+</html>
